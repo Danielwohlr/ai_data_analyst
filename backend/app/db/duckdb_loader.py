@@ -1,8 +1,8 @@
 import duckdb
 import os
 
-# Paths
 DATA_DIR = os.path.abspath("dataset")
+
 DB_PATH = os.path.join(DATA_DIR, "analytics.duckdb")
 
 # List of all your CSV files and table names
@@ -29,10 +29,9 @@ def initialize_database():
     for table_name, file_name in CSV_TABLES.items():
         csv_path = os.path.join(DATA_DIR, file_name)
         print(f"Loading {file_name} into table '{table_name}'...")
-        con.execute(f"""
-            CREATE TABLE {table_name} AS 
-            SELECT * FROM read_csv_auto('{csv_path}')
-        """)
+        con.execute(
+            f""" CREATE TABLE {table_name} AS SELECT * FROM read_csv_auto('{csv_path}', encoding='IBM_1252') """
+        )
 
     con.close()
     print("✅ DuckDB initialized.")
@@ -45,4 +44,3 @@ def get_connection():
 # Run when executed directly
 if __name__ == "__main__":
     initialize_database()
-
