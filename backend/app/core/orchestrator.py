@@ -5,9 +5,9 @@ import duckdb
 import openai
 import json
 
+load_dotenv("../.env")  # Load environment variables from .env file
 openai.api_key = os.getenv("OPENAI_API_KEY")
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=openai.api_key)
 
 
 def answer_query(question: str) -> dict:
@@ -17,9 +17,8 @@ def answer_query(question: str) -> dict:
     Returns a dictionary with keys: 'sql', 'data', 'visualization'.
     """
     # 1. Connect to the DuckDB database (assumes the DuckDB file is available at the given path).
-    db_path = "dataset/analytics.duckdb"
+    db_path = "../../../dataset/analytics.duckdb"
     conn = duckdb.connect(database=db_path, read_only=True)
-
     # 2. Introspect the schema: get tables and columns.
     tables = [table[0] for table in conn.execute("SHOW TABLES").fetchall()]
     schema_lines = []
@@ -54,7 +53,7 @@ def answer_query(question: str) -> dict:
     # 4. Call the OpenAI ChatCompletion API to get the SQL query and visualization suggestion.
     # (Requires openai.api_key to be set in your environment or via openai.api_key attribute)
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo", messages=messages, temperature=0
+        model="gpt-4o", messages=messages, temperature=0
     )
 
     assistant_reply = response.choices[0].message.content
