@@ -64,7 +64,7 @@ def analyst_agent(
     """.strip()
 
     user_content = (
-        f"Here is the data:\n{data_str}\n"
+        f"Data received from the database query:\n{data_str}\n"
         f"It was created using this query:\n{sql_query}\n"
         f"List with the Question and context: {user_prompt}"
     )

@@ -32,6 +32,7 @@ async def orchestratorAgent(user_prompt: str):
         }
 
     else:
+        print(format_output)
         # formatter thinks the question is good enough, so we can call the sql agent with the original user prompt
         sql, df = sql_agent(
             db_path=db_path, openai_client=client, user_query=format_output
@@ -42,7 +43,6 @@ async def orchestratorAgent(user_prompt: str):
                 "charts": [],
                 "error": df,
             }
-        print
 
         analysis_result = analyst_agent(
             openai_client=client, result_df=df, user_prompt=user_prompt, sql_query=sql

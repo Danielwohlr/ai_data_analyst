@@ -146,7 +146,11 @@ console.log(totalSales);
 const chatSlice = createSlice({
     name: 'chat',
     initialState: {
-        messages: []
+        messages: [
+            { role: 'assistant', content: '' },
+            { role: 'assistant', content: '' },
+            { role: 'assistant', content: '' }
+        ]
     },
     reducers: {
         addMessage: (state, action) => {
