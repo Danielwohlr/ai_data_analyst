@@ -1,5 +1,6 @@
 from app.schemas.build_schema import build_duckdb_schema
 from app.utils.execute_query import execute_sql_query
+import pandas as pd
 
 
 def build_user_prompt(user_question, error_messages=None):
@@ -9,6 +10,9 @@ def build_user_prompt(user_question, error_messages=None):
     :return: the user prompt
     """
     user_prompt = f"{user_question}"
+    user_prompt = (
+        user_prompt + f'By the way, today is {pd.Timestamp.now().strftime("%Y-%m-%d")}.'
+    )
     if error_messages:
         error_log = "\n".join(f"- {msg}" for msg in error_messages)
         user_prompt += f"""\n\nNOTE: Previous SQL queries failed with these errors:\n{error_log}\nFix them in the next query.\n
