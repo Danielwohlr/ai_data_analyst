@@ -30,8 +30,11 @@ async def orchestratorAgent(user_prompt: str):
         }
 
     else:
+        print(format_output)
         # formatter thinks the question is good enough, so we can call the sql agent with the original user prompt
-        sql, df = sql_agent(db_path, client, user_prompt)
-        analysis_result = analyst_agent(client, df, user_prompt)
+        sql, df = sql_agent(db_path, client, format_output)
+        print(sql)
+        print(df)
+        analysis_result = analyst_agent(client, df, user_prompt, sql)
         # TODO return also sql and df
         return analysis_result

@@ -11,7 +11,13 @@ def build_user_prompt(user_question, error_messages=None):
     """
     user_prompt = f"{user_question}"
     user_prompt = (
-        user_prompt + f'Instruction: - THE CURRENT USER QUESTION IS THE LAST MESSAGE IN THE MESSAGE ARRAY. USE THIS AS THE USER QUESTION. PREVIOUS MESSAGES ARE CONTEXT FOR YOU. By the way, today is {pd.Timestamp.now().strftime("%Y-%m-%d")}.'
+        user_prompt + f"""Instructions:
+        You are a system generating sql code from natural language inputs. The sql you create will be used to fetch data from a duckdb database. 
+        - THE CURRENT USER QUESTION IS THE LAST MESSAGE IN THE MESSAGE ARRAY. USE THIS AS THE USER QUESTION. PREVIOUS MESSAGES ARE CONTEXT FOR YOU. 
+        - Current timestamp: {pd.Timestamp.now().strftime("%Y-%m-%d")} (format is year-month-day).
+        - Use the date info to calculate timeframes. For example last quarter refers to 4 quarters of a year, and last quarter means the previous one that is not ongoing.
+        - Also last year refers to the year before the on you see in the timestamp
+        """
     )
     if error_messages:
         error_log = "\n".join(f"- {msg}" for msg in error_messages)

@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def analyst_agent(
-    openai_client, result_df: pd.DataFrame, user_prompt: str):
+    openai_client, result_df: pd.DataFrame, user_prompt: str, sql: str):
     # TODO add table as type of chart (jesse sent example via tg)
     # TODO remove scatterchart, doesnt exist
     # TODO Add Tooltip to chart objects
@@ -59,7 +59,11 @@ def analyst_agent(
     - Return a valid JSON object.
     """.strip()
 
-    user_content = f"Here is the data:\n{data_str}\n" f"Question: {user_prompt}"
+    user_content = f"""
+        Set of data recieved from the database query: {data_str}
+        Question: {user_prompt} 
+        Executed SQL command that resulted in the data: {sql}
+    """
     messages = [
         {"role": "system", "content": system_content},
         {"role": "user", "content": user_content},
