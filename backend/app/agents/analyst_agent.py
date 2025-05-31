@@ -1,9 +1,8 @@
-import openai
 import json
 import pandas as pd
 
 
-def run_analyst_agent(
+def analyst_agent(
     openai_client, result_df: pd.DataFrame, user_prompt: str
 ) -> list[dict]:
     """
@@ -63,6 +62,7 @@ def run_analyst_agent(
         {"role": "user", "content": user_content},
     ]
 
+    print("Analyst agent calling GPT-4o")
     # 3. Call the OpenAI ChatCompletion API with GPT-4o
     response = openai_client.chat.completions.create(
         model="gpt-4o",

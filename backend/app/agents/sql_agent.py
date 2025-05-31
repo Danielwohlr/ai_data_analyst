@@ -53,7 +53,7 @@ def call_chatgpt(openai_client, system_prompt, user_prompt):
     return response
 
 
-def answer_user_query(db_path, openai_client, user_query, max_retries=1):
+def sql_agent(db_path, openai_client, user_query, max_retries=1):
     """
     Generate SQL using ChatGPT, execute it on DuckDB, retrying on error up to `max_retries`.
     Includes all previous error messages in system prompt.
@@ -64,6 +64,7 @@ def answer_user_query(db_path, openai_client, user_query, max_retries=1):
     for attempt in range(max_retries):
         system_prompt = build_system_prompt(schema)
         user_prompt = build_user_prompt(user_query, error_messages)
+        print(f"SQL agent calling ChatGPT")
         chat_response = call_chatgpt(openai_client, system_prompt, user_prompt)
         sql = extract_sql(chat_response)
 
