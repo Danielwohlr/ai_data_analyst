@@ -6,11 +6,12 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],        # <-- allow all origins
+    allow_origins=["*"],  # <-- allow all origins
     allow_credentials=True,
-    allow_methods=["*"],        # <-- allow all methods (GET, POST, etc)
-    allow_headers=["*"],        # <-- allow all headers
+    allow_methods=["*"],  # <-- allow all methods (GET, POST, etc)
+    allow_headers=["*"],  # <-- allow all headers
 )
+
 
 @app.get("/")
 def read_root():
@@ -18,13 +19,10 @@ def read_root():
     result = orchestratorAgent(name)
     return {"message": f"{result}"}
 
+
 @app.post("/input")
 async def run_orchestrator(request: Request):
     body = await request.json()  # Parse raw JSON into a Python dict
-    input_data = body.get('input')  # Safer access with .get()
+    input_data = body.get("input")  # Safer access with .get()
     result = await orchestratorAgent(input_data)
-    return {
-        "role": "assistant",
-        "content": result  # Use result directly since it's already a string
-    }
-    
+    return result

@@ -5,6 +5,9 @@ import pandas as pd
 def analyst_agent(
     openai_client, result_df: pd.DataFrame, user_prompt: str
 ) -> list[dict]:
+    # TODO add table as type of chart (jesse sent example via tg)
+    # TODO remove scatterchart, doesnt exist
+    # TODO Add Tooltip to chart objects
     """
     Analyze a pandas DataFrame using GPT-4o and a user query,
     and return a structured list of dicts containing the answer and an optional chart specification.
