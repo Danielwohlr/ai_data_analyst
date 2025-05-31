@@ -14,6 +14,7 @@ import AreaChartGradient from "@/components/components/AreaChartGradient"
 import BarChart from "@/components/components/BarChart"
 import BarChartHorizontal from "@/components/components/BarChartHorizontal"
 import DataTable from "@/components/components/DataTable";
+import LineChartMultiple from "@/components/components/LineChartMultiple"
 
 
 const Message = ({ msg, idx }) => {
@@ -48,17 +49,25 @@ const Message = ({ msg, idx }) => {
         )
     }
 
+    if (msg.role === "lineChartMultiple") {
+        return (
+            <LineChartMultiple content={msg.content} />
+        )
+    }
+
     if (msg.role === "assistant") {
         return (
 
             <div className="flex justify-start">
                 <Card
-                    className="p-3 w-fit border-none shadow-none bg-white">
+                    className="p-3 max-w-full border-none shadow-none bg-white">
                     <CardContent
                         className="p-0 "
                         idx={idx}>
-                        <article className="markdown-body">
-                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        <article className="markdown-body break-words overflow-x-auto max-w-full">
+                            <ReactMarkdown>
+                                {msg.content}
+                            </ReactMarkdown>
                         </article>
                     </CardContent>
                 </Card >
