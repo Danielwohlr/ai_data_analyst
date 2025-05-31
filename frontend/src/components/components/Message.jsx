@@ -1,0 +1,75 @@
+'use client'
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import LineChartLinear from "@/components/components/LineChartLinear"
+import AreaChartGradient from "@/components/components/AreaChartGradient"
+import BarChart from "@/components/components/BarChart"
+import BarChartHorizontal from "@/components/components/BarChartHorizontal"
+
+
+const Message = ({ msg, idx }) => {
+
+    if (msg.role === "lineChart") {
+        return (
+            <LineChartLinear content={msg.content} />
+        )
+    }
+
+    if (msg.role === "barChart") {
+        return (
+            <BarChart content={msg.content} />
+        )
+    }
+
+    if (msg.role === "barChartHorizontal") {
+        return (
+            <BarChartHorizontal content={msg.content} />
+        )
+    }
+
+    if (msg.role === "areaChartGradient") {
+        return (
+            <AreaChartGradient content={msg.content} />
+        )
+    }
+
+    if (msg.role === "assistant") {
+        return (
+
+            <div className="flex justify-start">
+                <Card
+                    className="p-3 w-fit border-none shadow-none bg-white">
+                    <CardContent
+                        className="p-0 "
+                        idx={idx}>
+                        {msg.content}
+                    </CardContent>
+                </Card >
+            </div>
+        )
+    }
+    if (msg.role === 'user') {
+        return (
+
+            <div className="flex justify-start">
+                <Card
+                    className="p-3 w-fit shadow-none border-none bg-neutral-100">
+                    <CardContent
+                        className="p-0"
+                        key={idx}>
+                        {msg.content}
+                    </CardContent>
+                </Card >
+            </div>
+        )
+    }
+}
+
+export default Message;
