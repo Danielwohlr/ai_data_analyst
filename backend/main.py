@@ -1,16 +1,20 @@
-from app.core.orchestrator import answer_query
-import json
+from app.agents.sql_agent import answer_user_query
+
+from dotenv import load_dotenv
+import os
+import openai
+
+load_dotenv()  # Load environment variables from .env file
+openai.api_key = os.getenv("OPENAI_API_KEY")
+client = openai.OpenAI(api_key=openai.api_key)
 
 if __name__ == "__main__":
-    question = "Show total revenue by country in the last 12 months"
-    result = answer_query(question)
-
-    print("\nSQL Query:")
-    print(result["sql"])
-
-    print("\nSample Data:")
-    for row in result["data"][:5]:  # print first 5 rows
-        print(row)
-
-    print("\nSuggested Visualization:")
-    print(json.dumps(result["visualization"], indent=2))
+    user_question = "give me the total sales by territory"
+    db_path = "dataset/analytics.duckdb"
+    sql, result = answer_user_query(db_path, client, user_question)
+    print(f"Generated SQL: \n{sql}")
+    print("Result:")
+    if isinstance(result, str):
+        print(result)
+    else:
+        print(result.to_string(index=False))
