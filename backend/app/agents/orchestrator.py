@@ -17,11 +17,13 @@ client = OpenAI(api_key=api_key)
 
 
 async def orchestratorAgent(user_prompt: str):
-    
+
     print(f"Connecting to DuckDB at: {db_path}")
 
     schema = build_duckdb_schema(db_path)
-    format_ok, format_output = formatter_agent(client, schema, user_prompt)
+    format_ok, format_output = formatter_agent(
+        openai_client=client, schema=schema, user_prompt=user_prompt
+    )
     if not format_ok:
         # formatter thinks the question is not good enough
         return {
@@ -31,7 +33,19 @@ async def orchestratorAgent(user_prompt: str):
 
     else:
         # formatter thinks the question is good enough, so we can call the sql agent with the original user prompt
-        sql, df = sql_agent(db_path, client, user_prompt)
-        analysis_result = analyst_agent(client, df, user_prompt)
+        sql, df = sql_agent(
+            db_path=db_path, openai_client=client, user_query=format_output
+        )
+        if isinstance(df, str):
+            return {
+                "answer": "SQL generation failed.",
+                "charts": [],
+                "error": df,
+            }
+        print
+
+        analysis_result = analyst_agent(
+            openai_client=client, result_df=df, user_prompt=user_prompt, sql_query=sql
+        )
         # TODO return also sql and df
         return analysis_result

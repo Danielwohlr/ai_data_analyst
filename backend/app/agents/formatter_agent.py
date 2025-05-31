@@ -1,5 +1,6 @@
 import json
 
+
 def formatter_agent(openai_client, user_prompt, schema):
     """
     Formatter agent that evaluates user questions and generates instructions for an SQL agent or answers directly.
@@ -58,6 +59,7 @@ def formatter_agent(openai_client, user_prompt, schema):
         {"role": "system", "content": system_message},
         {"role": "user", "content": user_message},
     ]
+    print(f"Formatter agent input: {user_prompt}")
     print("Formatter agent calling GPT-4o-mini")
     response = openai_client.chat.completions.create(
         model="gpt-4o-mini", messages=messages, temperature=0
@@ -67,6 +69,8 @@ def formatter_agent(openai_client, user_prompt, schema):
 
     result = json.loads(assistant_reply)
     if "answer" in result:
+        print(f"Formatter agent answer: {result['answer']}")
         return False, result["answer"]
     if "instruction" in result:
+        print(f"Formatter agent instruction: {result['instruction']}")
         return True, result["instruction"]

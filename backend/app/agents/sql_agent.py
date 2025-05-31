@@ -11,13 +11,14 @@ def build_user_prompt(user_question, error_messages=None):
     """
     user_prompt = f"{user_question}"
     user_prompt = (
-        user_prompt + f'Instruction: - THE CURRENT USER QUESTION IS THE LAST MESSAGE IN THE MESSAGE ARRAY. USE THIS AS THE USER QUESTION. PREVIOUS MESSAGES ARE CONTEXT FOR YOU. By the way, today is {pd.Timestamp.now().strftime("%Y-%m-%d")}.'
+        user_prompt + f'By the way, today is {pd.Timestamp.now().strftime("%Y-%m-%d")}.'
     )
     if error_messages:
         error_log = "\n".join(f"- {msg}" for msg in error_messages)
         user_prompt += f"""\n\nNOTE: Previous SQL queries failed with these errors:\n{error_log}\nFix them in the next query.\n
         """.strip()
     return user_prompt
+
 
 def build_system_prompt(schema_description):
     """
@@ -28,6 +29,7 @@ def build_system_prompt(schema_description):
     Respond only with SQL and no additional content. Make sure you use only DuckDB syntax and NOT SQLite or MySQL.
     Do NOT wrap your answer in markdown or backticks.
     If the error is because of comparison of VARCHAR and DATE, CAST explicitly the variable as DATE.
+    Always use fully qualified column names (e.g., "orders.orderID") even if not strictly necessary, to avoid ambiguity.
     """.strip()
 
     return f"{instructions_prompt}\n\n{schema_description}"
@@ -64,11 +66,14 @@ def sql_agent(db_path, openai_client, user_query, max_retries=1):
         system_prompt = build_system_prompt(schema)
         user_prompt = build_user_prompt(user_query, error_messages)
         print(f"SQL agent calling ChatGPT")
+        print(f"User prompt: {user_prompt}")
         chat_response = call_chatgpt(openai_client, system_prompt, user_prompt)
         sql = extract_sql(chat_response)
+        print(f"Generated SQL: {sql}")
 
         try:
             df = execute_sql_query(db_path, sql)
+            print(f"SQL executed successfully, returning DataFrame {df}.")
             return sql, df
         except Exception as e:
             error_messages.append(str(e))
@@ -83,7 +88,7 @@ def sql_agent(db_path, openai_client, user_query, max_retries=1):
 import re
 
 
-def extract_sql(response):
+def extract_sql(response) -> str:
     """
     Extract clean SQL from the response content.
     Strips markdown, code fences, and ensures it's valid SQL string.

@@ -19,7 +19,7 @@ const InputBox = () => {
     const dispatch = useDispatch();
 
     const messages = useSelector((state) => state.chat.messages);
-    const last_5_messages = useSelector((state) => selectLastMessages(state, 1));
+    const last_5_messages = useSelector((state) => selectLastMessages(state, 0));
 
     const sendMessage = async () => {
         dispatch(addMessage({
