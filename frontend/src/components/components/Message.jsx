@@ -13,9 +13,16 @@ import LineChartLinear from "@/components/components/LineChartLinear"
 import AreaChartGradient from "@/components/components/AreaChartGradient"
 import BarChart from "@/components/components/BarChart"
 import BarChartHorizontal from "@/components/components/BarChartHorizontal"
+import DataTable from "@/components/components/DataTable";
 
 
 const Message = ({ msg, idx }) => {
+
+    if (msg.role === "table") {
+        return (
+            <DataTable content={msg.content} />
+        )
+    }
 
     if (msg.role === "lineChart") {
         return (
@@ -58,6 +65,8 @@ const Message = ({ msg, idx }) => {
             </div>
         )
     }
+
+
     if (msg.role === 'user') {
         return (
 
