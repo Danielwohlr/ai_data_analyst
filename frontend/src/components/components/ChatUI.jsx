@@ -2,6 +2,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addMessage } from '@/store/store.js'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -12,10 +14,15 @@ import {
 
 const ChatUI = () => {
     const [input, setInput] = useState("")
+    const dispatch = useDispatch()
 
     const sendMessage = async () => {
         console.log("send")
         console.log(input)
+        dispatch(addMessage({
+            role: 'user',
+            content: input,
+        }))
         setInput("")
     }
 
