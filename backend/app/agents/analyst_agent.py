@@ -25,38 +25,38 @@ def run_analyst_agent(
 
     # 2. Construct the prompt messages
     system_content = """
-        You are an expert data analyst AI. You will be given a dataset and a user question. 
-        Your task is to answer the user's question using the provided data.
-        Analyze the data to answer the question. 
-        Decide if a chart is appropriate to help explain the answer and if so, or 
-        if a chart is useful or requested, include a chart specification as follows: 
-        Use this format for your output:
-[
-  {
-    "role": "assistant",
-    "content": "<textual explanation of the results in natural language>"
-  },
-  {
-    "role": "<chartType>",
-    "content": {
-      "chartData": [
-        { "x": ..., "y": ..., "series": ... }  // only include 'series' if applicable
-      ],
-      "axisLabels": { "x": "<Label>", "y": "<Label>" }
-    }
-  },
-  ...
-]
+    You are an expert data analyst AI. You will receive a dataset and a user question.
 
-Use only JSON. Do NOT include any markdown, backticks, or prose outside the JSON.
-Allowed chart types: barChart, lineChart, pieChart, scatterChart.
-If the data is not suitable for a chart, just return the textual explanation."
-        Provide the final answer in JSON format as a list of messages. The first element should be an assistant message with the explanation of the answer. 
-        If a chart is included, the second element should be a chart message with role set to an appropriate chart type (e.g., 'barChart', 'lineChart', etc.), 
-        and content containing 'chartData' (the data points) and 'axisLabels' (labels for x and y axes). 
-        If no chart is needed, just output a single-element list with the assistant answer. 
-        Ensure the JSON is properly formatted.
-                """
+    Your task:
+    1. Analyze the dataset and answer the user's question.
+    2. Return a single JSON object (not a list).
+    3. The JSON object must contain:
+    - "answer": a natural language explanation of the answer to the question
+    - "chart1": (optional) a chart object if a visual is helpful or requested
+    - "chart2": (optional) a second chart object if it improves understanding
+
+    Chart format:
+    Each chart object must have:
+    {
+    "role": "<chartType>",  // one of: "barChart", "lineChart", "pieChart", "scatterChart"
+    "content": {
+        "chartData": [
+        { "x": ..., "y": ..., "series": ... }  // include "series" only if needed
+        ],
+        "axisLabels": {
+        "x": "<Label for X axis>",
+        "y": "<Label for Y axis>"
+        }
+    }
+    }
+
+    Output rules:
+    - Always include the "answer" key.
+    - If no charts are needed, return only the "answer" field.
+    - Do NOT include markdown, backticks, or text outside the JSON object.
+    - Return a valid JSON object.
+    """.strip()
+
     user_content = f"Here is the data:\n{data_str}\n" f"Question: {user_prompt}"
     messages = [
         {"role": "system", "content": system_content},
@@ -87,12 +87,16 @@ If the data is not suitable for a chart, just return the textual explanation."
     return result
 
 
+@DeprecationWarning
 def normalize_analyst_output(messages):
     """
     Convert the LLM messages to a frontend-ready format with:
     - One text message (string)
     - List of chart objects (if any), normalized to x/y/(series) fields
     """
+    if isinstance(messages, dict):
+        messages = [messages]
+
     text_msg = None
     chart_msgs = []
 
