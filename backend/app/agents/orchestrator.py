@@ -5,7 +5,7 @@ from openai import OpenAI
 
 from app.schemas.build_schema import build_duckdb_schema
 from app.agents.sql_agent import sql_agent
-from app.agents.analyst_agent import analyst_agent
+from app.agents.analyst_agent import analyst_agent, format_analyst_result_with_markdown
 from app.agents.formatter_agent import formatter_agent
 
 load_dotenv()
@@ -47,5 +47,6 @@ async def orchestratorAgent(user_prompt: str):
         analysis_result = analyst_agent(
             openai_client=client, result_df=df, user_prompt=user_prompt, sql_query=sql
         )
+        formatted_analysis = format_analyst_result_with_markdown(analysis_result, sql)
         # TODO return also sql and df
-        return analysis_result
+        return formatted_analysis

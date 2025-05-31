@@ -96,3 +96,27 @@ def analyst_agent(
         ) from e
     print(f"Analyst agent response: {result}")
     return result
+
+
+def format_analyst_result_with_markdown(result, sql_query):
+    """
+    Formats the 'answer' field of the result (or result itself if it's a string) with markdown.
+    Also embeds the SQL query in the markdown.
+    """
+    markdown_sql = f"```sql\n{sql_query}\n```"
+
+    if isinstance(result, str):
+        markdown_answer = (
+            f"### Answer\n\n{result}\n\n#### SQL Query Used\n\n{markdown_sql}"
+        )
+        return markdown_answer
+
+    if isinstance(result, dict):
+        answer = result.get("answer", "")
+        markdown_answer = (
+            f"### Answer\n\n{answer}\n\n#### SQL Query Used\n\n{markdown_sql}"
+        )
+        result["answer"] = markdown_answer
+        return result
+
+    raise ValueError("Unsupported result type. Expected str or dict.")
