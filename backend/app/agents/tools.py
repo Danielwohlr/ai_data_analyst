@@ -7,8 +7,3 @@ tools = {
     "explain": explain_result
 }
 """
-
-
-def orchestratorAgent(name: str) -> str:
-    return f"Hello, {name}!"
-

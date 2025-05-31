@@ -28,8 +28,12 @@ const LineChartLinear = ({ content }) => {
     }
 
     let chartConfig = {
+        x: {
+            label: `${content.axisLabels.x}` || "x Axis",
+            color: "var(--chart-1)",
+        },
         y: {
-            label: `${content.axisLabels.y}` || "Y Axis",
+            label: `${content.axisLabels.y}` || "y Axis",
             color: "var(--chart-1)",
         },
     };
@@ -41,10 +45,7 @@ const LineChartLinear = ({ content }) => {
                     <LineChart
                         accessibilityLayer
                         data={content.chartData}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}
+                        margin={{ top: 10, right: 10, bottom: 20, left: 10 }}
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis

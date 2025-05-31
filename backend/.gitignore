@@ -1,5 +1,6 @@
 # Virtual environment
 .venv/
+.env
 
 # Python artifacts
 __pycache__/

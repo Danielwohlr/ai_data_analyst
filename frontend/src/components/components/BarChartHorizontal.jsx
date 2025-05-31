@@ -27,8 +27,12 @@ const BarChartHorizontal = ({ content }) => {
     }
 
     let chartConfig = {
+        x: {
+            label: `${content.axisLabels.x}` || "x Axis",
+            color: "var(--chart-1)",
+        },
         y: {
-            label: `${content.axisLabels.y}` || "Y Axis",
+            label: `${content.axisLabels.y}` || "y Axis",
             color: "var(--chart-1)",
         },
     };
@@ -41,11 +45,15 @@ const BarChartHorizontal = ({ content }) => {
                         accessibilityLayer
                         data={content.chartData}
                         layout="vertical"
-                        margin={{
-                            left: -20,
-                        }}
+                        margin={{ top: 10, right: 10, bottom: 20, left: 10 }}
                     >
-                        <XAxis type="number" dataKey="x" hide />
+                        <XAxis type="number" dataKey="x" hide >
+                            <Label
+                                value={content.axisLabels?.x || "X Axis"}
+                                offset={-10}
+                                position="insideBottom"
+                            />
+                        </XAxis>
                         <YAxis
                             dataKey="y"
                             type="category"
