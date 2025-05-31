@@ -23,7 +23,7 @@ const test = async () => {
     }
 };
 
-const sendInput = async (inputData) => {
+const sendInput = async (inputData, dispatch) => {
     const body = {
         input: inputData
     }
@@ -42,7 +42,6 @@ const sendInput = async (inputData) => {
 
         const data = await response.json();
         console.log(data)
-        addMessage(data);
         return data;
     } catch (error) {
         console.error('Error:', error);

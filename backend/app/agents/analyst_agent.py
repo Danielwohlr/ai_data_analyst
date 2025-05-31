@@ -3,8 +3,7 @@ import pandas as pd
 
 
 def analyst_agent(
-    openai_client, result_df: pd.DataFrame, user_prompt: str
-) -> list[dict]:
+    openai_client, result_df: pd.DataFrame, user_prompt: str):
     # TODO add table as type of chart (jesse sent example via tg)
     # TODO remove scatterchart, doesnt exist
     # TODO Add Tooltip to chart objects
@@ -54,6 +53,7 @@ def analyst_agent(
 
     Output rules:
     - Always include the "answer" key.
+    - Always use string names for months like "January" not a date like "2015-01"
     - If no charts are needed, return only the "answer" field.
     - Do NOT include markdown, backticks, or text outside the JSON object.
     - Return a valid JSON object.

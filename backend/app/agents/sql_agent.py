@@ -11,14 +11,13 @@ def build_user_prompt(user_question, error_messages=None):
     """
     user_prompt = f"{user_question}"
     user_prompt = (
-        user_prompt + f'By the way, today is {pd.Timestamp.now().strftime("%Y-%m-%d")}.'
+        user_prompt + f'Instruction: - THE CURRENT USER QUESTION IS THE LAST MESSAGE IN THE MESSAGE ARRAY. USE THIS AS THE USER QUESTION. PREVIOUS MESSAGES ARE CONTEXT FOR YOU. By the way, today is {pd.Timestamp.now().strftime("%Y-%m-%d")}.'
     )
     if error_messages:
         error_log = "\n".join(f"- {msg}" for msg in error_messages)
         user_prompt += f"""\n\nNOTE: Previous SQL queries failed with these errors:\n{error_log}\nFix them in the next query.\n
         """.strip()
     return user_prompt
-
 
 def build_system_prompt(schema_description):
     """
@@ -43,7 +42,7 @@ def call_chatgpt(openai_client, system_prompt, user_prompt):
     :return: The response from the chatgpt API
     """
     response = openai_client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},

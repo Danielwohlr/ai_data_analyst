@@ -12,7 +12,6 @@ app.add_middleware(
     allow_headers=["*"],  # <-- allow all headers
 )
 
-
 @app.get("/")
 def read_root():
     name = "Jesse Sorsa"
@@ -25,4 +24,5 @@ async def run_orchestrator(request: Request):
     body = await request.json()  # Parse raw JSON into a Python dict
     input_data = body.get("input")  # Safer access with .get()
     result = await orchestratorAgent(input_data)
+    print(f"this is the result before returning to frontend: {result}")
     return result

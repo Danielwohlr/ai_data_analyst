@@ -18,7 +18,8 @@ const InputBox = () => {
     const [input, setInput] = useState("")
     const dispatch = useDispatch();
 
-    const last_5_messages = useSelector((state) => selectLastMessages(state, 5));
+    const messages = useSelector((state) => state.chat.messages);
+    const last_5_messages = useSelector((state) => selectLastMessages(state, 1));
 
     const sendMessage = async () => {
         dispatch(addMessage({
@@ -26,11 +27,34 @@ const InputBox = () => {
             content: input,
         }))
 
-        const messageStream = [...last_5_messages, input]
-        console.log(messageStream);
-        const data = await sendInput(messageStream);
-        dispatch(addMessage(data));
+        const messageStream = [...last_5_messages, input];
         setInput("");
+        const data = await sendInput(messageStream);
+
+        if (data && data.role && data.content) {
+            dispatch(addMessage(data));
+            return;
+        }
+
+        const outputs = [];
+
+        for (const [key, value] of Object.entries(data)) {
+            if (key === 'answer') {
+                outputs.push({
+                    role: 'assistant',
+                    content: value
+                });
+            } else if (value.role && value.content) {
+                outputs.push({
+                    role: value.role,
+                    content: value.content
+                });
+            }
+        }
+
+        for (const message of outputs) {
+            dispatch(addMessage(message));
+        }
     }
 
     return (

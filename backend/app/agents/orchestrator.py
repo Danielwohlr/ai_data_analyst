@@ -17,6 +17,8 @@ client = OpenAI(api_key=api_key)
 
 
 async def orchestratorAgent(user_prompt: str):
+    
+    print(f"Connecting to DuckDB at: {db_path}")
 
     schema = build_duckdb_schema(db_path)
     format_ok, format_output = formatter_agent(client, schema, user_prompt)
