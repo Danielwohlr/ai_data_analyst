@@ -17,11 +17,6 @@ const ChatArea = () => {
                 <Message msg={msg} key={key}></Message>
             ))}
             <DataTable />
-            <AreaChartGradient />
-            <BarChartDefault />
-            <BarChartHorizontal />
-            <LineChartLinear />
-            <DataTable />
         </div>
     )
 }

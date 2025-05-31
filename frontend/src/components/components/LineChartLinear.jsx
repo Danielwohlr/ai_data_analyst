@@ -21,25 +21,18 @@ import {
 export const description = "A linear line chart"
 
 
-const LineChartLinear = () => {
+const LineChartLinear = ({ content }) => {
 
-    const chartData = [
-        { x: "January", y: 186 },
-        { x: "February", y: 305 },
-        { x: "March", y: 237 },
-        { x: "April", y: 73 },
-        { x: "May", y: 209 },
-        { x: "June", y: 214 },
-    ]
+    if (!content) {
+        return <div>Loading chart data...</div>;
+    }
 
-    const axisLabels = { x: "Month", y: "Value" }
-
-    const chartConfig = {
+    let chartConfig = {
         y: {
-            label: axisLabels.y,
+            label: `${content.axisLabels.y}` || "Y Axis",
             color: "var(--chart-1)",
         },
-    }
+    };
 
     return (
         <Card>
@@ -47,7 +40,7 @@ const LineChartLinear = () => {
                 <ChartContainer config={chartConfig}>
                     <LineChart
                         accessibilityLayer
-                        data={chartData}
+                        data={content.chartData}
                         margin={{
                             left: 12,
                             right: 12,

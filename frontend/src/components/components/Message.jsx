@@ -8,11 +8,37 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import LineChartLinear from "@/components/components/LineChartLinear"
+import AreaChartGradient from "@/components/components/AreaChartGradient"
+import BarChart from "@/components/components/BarChart"
+import BarChartHorizontal from "@/components/components/BarChartHorizontal"
 
 
 const Message = ({ msg, idx }) => {
 
+    if (msg.role === "lineChart") {
+        return (
+            <LineChartLinear content={msg.content} />
+        )
+    }
 
+    if (msg.role === "barChart") {
+        return (
+            <BarChart content={msg.content} />
+        )
+    }
+
+    if (msg.role === "barChartHorizontal") {
+        return (
+            <BarChartHorizontal content={msg.content} />
+        )
+    }
+
+    if (msg.role === "areaChartGradient") {
+        return (
+            <AreaChartGradient content={msg.content} />
+        )
+    }
 
     if (msg.role === "assistant") {
         return (
@@ -29,7 +55,7 @@ const Message = ({ msg, idx }) => {
             </div>
         )
     }
-    else {
+    if (msg.role === 'user') {
         return (
 
             <div className="flex justify-start">
