@@ -38,7 +38,30 @@ const chatSlice = createSlice({
                     axisLabels: { x: "Month", y: "Some value" }
                 }
             },
-            { role: 'assistant', content: 'Sure! Here are today’s top headlines: 1) Markets rise... 2) Tech merger... 3) SpaceX launch...' },
+            {
+                role: 'assistant', content: `
+# Sales Report
+
+Here is the **monthly sales data** for Q1:
+
+| Month | Sales |
+|-------|-------|
+| Jan   | 100   |
+| Feb   | 200   |
+| Mar   | 300   |
+
+## Summary
+
+- January sales were low.
+- February sales doubled.
+- March sales increased by 50%.
+
+\`\`\`js
+// Sample sales calculation
+const totalSales = 100 + 200 + 300;
+console.log(totalSales);
+\`\`\`
+` },
             { role: 'user', content: 'Hello, what’s the weather like today?' },
             {
                 role: "barChart",
@@ -91,7 +114,35 @@ const chatSlice = createSlice({
             },
             { role: 'assistant', content: 'The weather is sunny and 24°C in your location.' },
             { role: 'user', content: 'Thanks! Can you summarize the news headlines?' },
-            { role: 'assistant', content: 'Sure! Here are today’s top headlines: 1) Markets rise... 2) Tech merger... 3) SpaceX launch...' }
+            { role: 'assistant', content: 'Sure! Here are today’s top headlines: 1) Markets rise... 2) Tech merger... 3) SpaceX launch...' },
+            {
+                role: 'table', content: {
+                    data: [
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ],
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ],
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ],
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ],
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ],
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ],
+                        [
+                            "INV001", "Paid", "$250.00", "Credit Card",
+                        ]
+                    ],
+                    labels: ["Invoice", "Status", "Method", "Amount"]
+                }
+            }
         ]
     },
     reducers: {

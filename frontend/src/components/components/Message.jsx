@@ -1,5 +1,5 @@
 'use client'
-
+import 'github-markdown-css/github-markdown.css'
 import {
     Card,
     CardContent,
@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import ReactMarkdown from "react-markdown";
 import LineChartLinear from "@/components/components/LineChartLinear"
 import AreaChartGradient from "@/components/components/AreaChartGradient"
 import BarChart from "@/components/components/BarChart"
@@ -49,7 +50,9 @@ const Message = ({ msg, idx }) => {
                     <CardContent
                         className="p-0 "
                         idx={idx}>
-                        {msg.content}
+                        <article className="markdown-body">
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </article>
                     </CardContent>
                 </Card >
             </div>

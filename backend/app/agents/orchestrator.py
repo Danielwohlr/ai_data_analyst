@@ -43,7 +43,7 @@ Output format example when you are giving instruction to the sql agent:
 {{
     "instruction": "Describe what has to be done in natural language"
 }}
-Output format example when you are answering the user directly
+Output format example when you are answering the user directly, or asking for more info
 {{
     "answer": "Could you specify what you... (or something similar)"
 }}
@@ -55,6 +55,9 @@ Other:
 - Remember that your are a 180iq data analyst and ask good short clarifying questions to the user if needed
 - Do not give vague instructions to the sql agent only very very specific orders (in natural language)
 - If the user uses ambigious terms like best/worst/very good or similar that can be interpreted in many ways: Always ask the user for more detail and tell what was vague and how they should format the question
+- Always if the request is not specific, ask for more info
+- Dont try to get all info from a table. or similar tasks that are not specific enough
+- When you are asking for more info, always use the answer key in the output
 """.format(input, schema)
 
     messages = [
@@ -73,6 +76,7 @@ Other:
         return result["answer"]
     if "instruction" in result:
         print(result["instruction"])
+        
 
     
     

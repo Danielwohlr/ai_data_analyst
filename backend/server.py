@@ -21,7 +21,6 @@ def read_root():
 @app.post("/input")
 async def run_orchestrator(request: Request):
     body = await request.json()  # Parse raw JSON into a Python dict
-    print(body)
     input_data = body.get('input')  # Safer access with .get()
     result = await orchestratorAgent(input_data)
     return {
