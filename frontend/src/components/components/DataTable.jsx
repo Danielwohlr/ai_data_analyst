@@ -10,45 +10,23 @@ import {
 } from "@/components/ui/table"
 
 
-const DataTable = () => {
+const DataTable = ({ content }) => {
 
-    const data = [
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-        [
-            "INV001", "Paid", "$250.00", "Credit Card",
-        ],
-    ]
-
-    const labels = ["Invoice", "Status", "Method", "Amount"]
+    if (!content) {
+        return <div>Loading chart data...</div>;
+    }
 
     return (
         <Table>
             <TableHeader>
                 <TableRow>
-                    {labels.map((label, key) => (
+                    {content.labels.map((label, key) => (
                         <TableHead key={key}>{label}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {data.map((row, key) => (
+                {content.data.map((row, key) => (
                     <TableRow key={key}>
                         {row.map((value, key) => (
                             <TableCell key={key}>{value}</TableCell>

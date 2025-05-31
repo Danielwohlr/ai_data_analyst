@@ -16,7 +16,6 @@ const ChatArea = () => {
             {messages.map((msg, key) => (
                 <Message msg={msg} key={key}></Message>
             ))}
-            <DataTable />
         </div>
     )
 }

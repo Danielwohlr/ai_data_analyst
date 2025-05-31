@@ -3,7 +3,8 @@
 
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addMessage } from '@/store/store.js'
+import { useSelector } from 'react-redux'
+import { addMessage, selectLastMessages } from '@/store/store.js'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,19 +12,25 @@ import {
     Card,
     CardContent,
 } from "@/components/ui/card"
+import { test, sendInput } from '@/http/http'
 
-const ChatUI = () => {
+const InputBox = () => {
     const [input, setInput] = useState("")
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const last_5_messages = useSelector((state) => selectLastMessages(state, 5));
 
     const sendMessage = async () => {
-        console.log("send")
-        console.log(input)
         dispatch(addMessage({
             role: 'user',
             content: input,
         }))
-        setInput("")
+
+        const messageStream = [...last_5_messages, input]
+        console.log(messageStream);
+        const data = await sendInput(messageStream);
+        dispatch(addMessage(data));
+        setInput("");
     }
 
     return (
@@ -49,4 +56,4 @@ const ChatUI = () => {
     )
 }
 
-export default ChatUI
+export default InputBox;

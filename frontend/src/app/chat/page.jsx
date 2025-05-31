@@ -1,7 +1,7 @@
 'use client'
 
 import ChatArea from '@/components/components/ChatArea';
-import ChatUI from '@/components/components/ChatUI'
+import InputBox from '@/components/components/InputBox'
 import ReduxProvider from "@/store/ReduxProvider";
 
 const ChatPage = () => {
@@ -9,7 +9,7 @@ const ChatPage = () => {
     return (
         <>
             <ReduxProvider>
-                <ChatUI />
+                <InputBox />
                 <ChatArea />
             </ReduxProvider>
         </>

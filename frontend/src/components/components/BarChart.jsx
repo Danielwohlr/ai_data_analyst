@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Label, XAxis, YAxis } from "recharts"
 
 import {
     Card,
@@ -32,25 +32,56 @@ const BarChartDefault = ({ content }) => {
             label: `${content.axisLabels.x}` || "x Axis",
             color: "var(--chart-1)",
         },
+        y: {
+            label: `${content.axisLabels.y}` || "y Axis",
+            color: "var(--chart-1)",
+        },
     };
 
 
     return (
         <Card>
+            <CardHeader>
+                <CardTitle>{content.axisLabels.y} / {content.axisLabels.x}</CardTitle>
+            </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
-                    <BarChart accessibilityLayer data={content.chartData}>
+                    <BarChart
+                        accessibilityLayer
+                        data={content.chartData}
+                        margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
                         <CartesianGrid vertical={false} />
                         <XAxis
                             dataKey="x"
                             tickLine={false}
-                            tickMargin={10}
+                            tickMargin={8}
                             axisLine={false}
                             tickFormatter={(value) => value.slice(0, 3)}
-                        />
+                        >
+                            <Label
+                                value={content.axisLabels?.x || "X Axis"}
+                                offset={-10}
+                                position="insideBottom"
+                            />
+                        </XAxis>
+                        <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
+                            tickCount={3}
+                        >
+                            <Label
+                                value={content.axisLabels?.y || "Y Axis"}
+                                angle={-90}
+                                position="outsideLeft"
+                                dy={0}
+                                dx={-20}
+                                style={{ textAnchor: 'middle' }}
+                            />
+                        </YAxis>
                         <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
+                            cursor={true}
+                            content={<ChartTooltipContent />}
                         />
                         <Bar dataKey="y" fill="var(--chart-1)" radius={8} />
                     </BarChart>

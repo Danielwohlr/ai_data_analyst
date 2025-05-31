@@ -1,5 +1,5 @@
 'use client'
-
+import 'github-markdown-css/github-markdown.css'
 import {
     Card,
     CardContent,
@@ -8,13 +8,21 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import ReactMarkdown from "react-markdown";
 import LineChartLinear from "@/components/components/LineChartLinear"
 import AreaChartGradient from "@/components/components/AreaChartGradient"
 import BarChart from "@/components/components/BarChart"
 import BarChartHorizontal from "@/components/components/BarChartHorizontal"
+import DataTable from "@/components/components/DataTable";
 
 
 const Message = ({ msg, idx }) => {
+
+    if (msg.role === "table") {
+        return (
+            <DataTable content={msg.content} />
+        )
+    }
 
     if (msg.role === "lineChart") {
         return (
@@ -49,12 +57,16 @@ const Message = ({ msg, idx }) => {
                     <CardContent
                         className="p-0 "
                         idx={idx}>
-                        {msg.content}
+                        <article className="markdown-body">
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </article>
                     </CardContent>
                 </Card >
             </div>
         )
     }
+
+
     if (msg.role === 'user') {
         return (
 
