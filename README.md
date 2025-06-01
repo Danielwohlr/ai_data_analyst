@@ -230,3 +230,61 @@ docker compose down
 2. The model has memory, so it can connect the dots across multiple prompts.
 
 3. If you have your own valid query, you can execute it via the agent and collect the result. (UPDATE, DELETE or INSERT do not work)
+
+## System Architecture
+
+The AI Data Analyst application is built as a modular full-stack system, combining a modern React frontend with a Python backend powered by FastAPI and DuckDB. The architecture is designed for extensibility, real-time data analysis, and seamless AI integration.
+
+### Overview
+
+- **Frontend**:  
+  - Built with React.js and Redux Toolkit for state management.
+  - Uses Recharts for interactive data visualization.
+  - Communicates with the backend via HTTP API endpoints.
+  - Components such as `InputBox.jsx`, `ChatArea.jsx`, and chart components handle user interaction and display results.
+
+- **Backend**:  
+  - Implemented with FastAPI for high-performance asynchronous APIs.
+  - Utilizes DuckDB as the analytical database engine.
+  - Integrates with OpenAI’s API for natural language understanding and data analysis.
+  - Organized into modular agents:
+    - **Orchestrator Agent**: Coordinates the flow between agents and manages the conversation pipeline.
+    - **Formatter Agent**: Evaluates and reformulates user questions for clarity and context.
+    - **SQL Agent**: Translates natural language queries into SQL, executes them, and handles errors.
+    - **Analyst Agent**: Analyzes SQL results, generates insights, and suggests visualizations.
+
+- **Database**:  
+  - DuckDB database stores analytical data.
+  - Schema is introspected dynamically to inform the AI agents.
+
+- **Communication Flow**:
+  1. **User Input**: User submits a question via the frontend.
+  2. **Formatter Agent**: Backend evaluates the question, reformulates or asks for clarification if needed.
+  3. **SQL Agent**: Generates and executes SQL queries based on the user’s intent.
+  4. **Analyst Agent**: Interprets query results, generates explanations, and suggests visualizations.
+  5. **Response**: The orchestrator compiles the answer and sends it back to the frontend for display.
+
+- **Deployment**:
+  - Can be run locally with Docker Compose or as separate frontend/backend services.
+  - Easily deployable to cloud platforms.
+
+### Diagram
+
+```mermaid
+    A[User] -->|Question| B[Frontend (React)]
+    B -->|API Request| C[Backend (FastAPI)]
+    C --> D[Formatter Agent]
+    D --> E[SQL Agent]
+    E --> F[DuckDB Database]
+    E --> G[Analyst Agent]
+    G --> C
+    C -->|Response| B
+    B -->|Visualization| A
+```
+
+### Key Points
+
+- **Extensible agent-based backend** for robust, modular data analysis.
+- **Real-time, interactive frontend** for seamless user experience.
+- **AI-powered insights** leveraging OpenAI’s models for both query understanding and result interpretation.
+- **Support for multiple chart types** and natural language explanations.
