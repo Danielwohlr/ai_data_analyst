@@ -77,7 +77,12 @@ def sql_agent(db_path, openai_client, user_query, max_retries=1):
         chat_response = call_chatgpt(openai_client, system_prompt, user_prompt)
         sql = extract_sql(chat_response)
         print(f"Generated SQL: {sql}")
-
+        # Check if SQL contains DML operations
+        if any(keyword in sql.upper() for keyword in ["DELETE", "INSERT", "UPDATE"]):
+            return (
+                sql,
+                "SQL contains DML operations which are not allowed. Please generate a SELECT query.",
+            )
         try:
             df = execute_sql_query(db_path, sql)
             print(f"SQL executed successfully, returning DataFrame {df}.")

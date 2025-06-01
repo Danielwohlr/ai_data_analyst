@@ -145,11 +145,11 @@ ai_data_analyst/
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone git@github.com:Danielwohlr/ai_data_analyst.git
 cd ai_data_analyst
 ```
 
-2. Start the application using Docker Compose:
+2. Start the application using Docker Compose (will take few minutes):
 ```bash
 docker-compose build
 docker-compose up
@@ -216,3 +216,17 @@ docker compose down
 ![image info](imgs/wrong.png)
 
 #### More examples in the Demo
+
+
+### Data Schema
+
+
+![image info](imgs/schema.png)
+
+### TIPS for Successful Data Analysis
+
+1. If you want a chart to be plotted, mention it in the prompt.
+
+2. The model has memory, so it can connect the dots across multiple prompts.
+
+3. If you have your own valid query, you can execute it via the agent and collect the result. (UPDATE, DELETE or INSERT do not work)
