@@ -64,7 +64,7 @@ const InputBox = () => {
                     <div className="flex flex-row">
                         <Textarea
                             className="text-md w-full h-20 shadow-none resize-none outline-none ring-0 border-0 focus:ring-0 focus:border-0 focus-visible:ring-0 focus-visible:border-0"
-                            placeholder="Query anything"
+                            placeholder="Chat with your database"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                         />
