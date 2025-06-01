@@ -66,8 +66,7 @@ const LineChartMultiple = ({ content }) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Multiple Series Chart</CardTitle>
-                <CardDescription>{content.axisLabels.x} vs {seriesKeys.map(key => chartConfig[key].label).join(', ')}</CardDescription>
+                <CardTitle>{seriesKeys.map(key => chartConfig[key].label).join(', ')}</CardTitle>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>

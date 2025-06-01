@@ -1,6 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
-
 const template_messages = [
     { role: 'user', content: 'Hello, what’s the weather like today?' },
     { role: 'assistant', content: 'The weather is sunny and 24°C in your location.' },
@@ -97,6 +96,45 @@ console.log(totalSales);
         }
     },
     {
+        role: 'lineChartMultiple',
+        content: {
+            chartData: [
+                { x: "January", y1: 186, y2: 80, y3: 120, y4: 90, y5: 150 },
+                { x: "February", y1: 305, y2: 200, y3: 180, y4: 160, y5: 220 },
+                { x: "March", y1: 237, y2: 120, y3: 140, y4: 110, y5: 180 },
+                { x: "April", y1: 73, y2: 190, y3: 160, y4: 130, y5: 200 },
+                { x: "May", y1: 209, y2: 130, y3: 150, y4: 120, y5: 170 },
+                { x: "June", y1: 214, y2: 140, y3: 170, y4: 140, y5: 190 }
+            ],
+            axisLabels: {
+                x: "Month",
+                y1: "Desktop Users",
+                y2: "Mobile Users",
+                y3: "Tablet Users",
+                y4: "Smart TV Users",
+                y5: "Other Devices"
+            }
+        }
+    },
+    {
+        role: 'tooltip',
+        content: {
+            chartData: [
+                { x: "January", y1: 450, y2: 300 },
+                { x: "Feb", y1: 380, y2: 420 },
+                { x: "Mar", y1: 520, y2: 120 },
+                { x: "Apr", y1: 140, y2: 550 },
+                { x: "May", y1: 600, y2: 350 },
+                { x: "Jun", y1: 480, y2: 400 }
+            ],
+            axisLabels: {
+                x: "Month",
+                y1: "Running",
+                y2: "Swimming"
+            }
+        }
+    },
+    {
         role: 'barChartHorizontal', content: {
             chartData: [
                 { y: "January", x: 186 },
@@ -148,29 +186,6 @@ const chatSlice = createSlice({
     initialState: {
         messages: [
             { role: 'assistant', content: '' },
-            { role: 'assistant', content: '' },
-            { role: 'assistant', content: '' },
-            {
-                role: 'lineChartMultiple',
-                content: {
-                    chartData: [
-                        { x: "January", y1: 186, y2: 80, y3: 120, y4: 90, y5: 150 },
-                        { x: "February", y1: 305, y2: 200, y3: 180, y4: 160, y5: 220 },
-                        { x: "March", y1: 237, y2: 120, y3: 140, y4: 110, y5: 180 },
-                        { x: "April", y1: 73, y2: 190, y3: 160, y4: 130, y5: 200 },
-                        { x: "May", y1: 209, y2: 130, y3: 150, y4: 120, y5: 170 },
-                        { x: "June", y1: 214, y2: 140, y3: 170, y4: 140, y5: 190 }
-                    ],
-                    axisLabels: {
-                        x: "Month",
-                        y1: "Desktop Users",
-                        y2: "Mobile Users",
-                        y3: "Tablet Users",
-                        y4: "Smart TV Users",
-                        y5: "Other Devices"
-                    }
-                }
-            }
         ]
     },
     reducers: {

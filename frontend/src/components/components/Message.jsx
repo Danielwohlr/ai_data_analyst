@@ -15,6 +15,7 @@ import BarChart from "@/components/components/BarChart"
 import BarChartHorizontal from "@/components/components/BarChartHorizontal"
 import DataTable from "@/components/components/DataTable";
 import LineChartMultiple from "@/components/components/LineChartMultiple"
+import Tooltip from "@/components/components/Tooltip";
 
 
 const Message = ({ msg, idx }) => {
@@ -28,6 +29,12 @@ const Message = ({ msg, idx }) => {
     if (msg.role === "lineChart") {
         return (
             <LineChartLinear content={msg.content} />
+        )
+    }
+
+    if (msg.role === "tooltip") {
+        return (
+            <Tooltip content={msg.content} />
         )
     }
 
