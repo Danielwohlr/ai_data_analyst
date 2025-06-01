@@ -1,6 +1,7 @@
 # AI Data Analyst
 
 A full-stack application that provides an interactive interface for data analysis and visualization, powered by AI.
+Generates charts and textual insights in few seconds for even the most complicated queries!
 
 ## Overview
 
