@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app # bind-mount code
+      - /app/.venv # mount .venv as an (anonymous) volume
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Expose frontend on localhost:3000
+    volumes:
+      - ./frontend:/app # Mount frontend code so changes reflect without rebuilding image
+      - frontend-node-modules:/app/node_modules # Preserve node_modules (avoid being overwritten by bind mount)
+      - frontend-build:/app/.next # Preserve Next.js build output for faster reloads
+    # No env_file needed for frontend (no environment vars)
+
+    # Define named volumes for dependencies to persist between container restarts
+volumes:
+  backend-venv:
+  frontend-node-modules:
+  frontend-build:
